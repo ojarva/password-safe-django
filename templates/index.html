@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block header %}
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var baseUrl = "{{ baseUrl }}";
+			});
+		</script>	
+
+	        <script type="text/javascript" src="/password/static/js/passwords.js"></script>		
+		<link rel="stylesheet" type="text/css" href="/password/static/css/passwords.css"/>
+
+<script type="text/javascript">
+$(document).ready(function() {
+ $("#passwordTable").tableFilter({filterDelay: 10, additionalFilterTriggers: [$('#quickfind'), $("#showOnly")], 
+       matchingRow: function(state, tr, textTokens) {
+           if (!state || !state.id) { return true; }
+           var child = tr.children('td:eq(0)');
+           if (!child) return true;
+           var val =  child.text().trim();
+           switch (state.id) {
+                case 'showOnly': return state.value !== true || val === "\"true\"";
+                default: return true;
+           }
+       }
+ });
+ $("tr.filters").css("display", "none");
+ $('#passwordTable').tableFilterApplyFilterValues();
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="well">
+	<input class="search-query" type="text" id="quickfind" name="quickfind" placeholder="Search">
+	<a class="btn btn-small" id="newPassword" href="#">Add new password</a>
+	<input id="showOnly" type="checkbox" name="showOnly" value="showOnly" /><label for="showOnly">Show only passwords I have access to</label>
+</div>
+
+
+<table id="passwordTable" class="searchTable table table-condensed table-striped">
+	<thead>
+		<tr id="firstRow">
+			<th style="width:0px" class="wide hasAccess">Has access?</th>
+			<th style="width:160px" class="wide">Target system</th>
+			<th style="width:160px" class="wide">Username</th>				
+			<th style="width:140px" class="wide">Password</th>
+			<th style="width:120px" class="wide">Ldap group</th>						
+			<th style="width:260px" class="wide">Description</th>
+			<th style="width:40px" id="editHeader">Edit</th>
+			<th style="width:50px" id="deleteHeader">Delete</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- For loop for user ids -->
+		{% for password in passwords %}
+		<tr id="{{ password.pk }}" class="searchResult">
+			<td class="hasAccess">
+				{% if password in user_passwords %}
+					"true"
+				{% else %}
+					""
+				{% endif %}</td>
+			<td class="targetSystem">{{ password.targetSystem }}</td>
+			<td class="username">{{ password.username }}</td>
+			<td>
+				{% if password in user_passwords %}
+					<a class="showPassword" href="#">Show password</a>
+					<input class="hiddenPassword"></span>
+				{% else %}
+					<span class="noRights">{{ password.ldapGroup }} membership required</span>
+				{% endif %}
+			</td>
+			<td>{{ password.ldapGroup }}</td>								
+			<td class="desc">
+				{% if password in user_passwords %}
+					{% if password.description|length > 120 %}
+						<span class="descPlusIcon toggle icon-plus-sign"></span>
+							<span class="descContent1"> {{ password.description|truncatechars:120|urlizetrunc:25 }}</span>
+							<span class="descContent2 hidden_content"> {{ password.description|urlizetrunc:25 }}</span>
+					{% else %}
+						{{ password.description|urlizetrunc:25 }}
+					{% endif %}
+				{% else %}
+					<span class="noRights">{{ password.ldapGroup }} membership required</span>
+				{% endif %}								
+			</td>			
+			{% if password in user_passwords %}
+			<td class="edit">
+				<span class="icon-wrench" title="Edit password"/>
+			</td>	
+			{% else %}
+			<td class="disabledEdit">
+				<span class="icon-wrench disabled" title="Edit password"/>
+			</td>
+			{% endif %}										
+			{% if password in user_passwords %}
+			<td class="delete">
+				<span class="icon-remove-circle" href="#" title="Delete password"/>
+			</td>
+			{% else %}
+			<td class="disabledDelete">
+				<span class="icon-remove-circle disabled" href="#" title="Delete password"/>
+			</td>
+			{% endif %}																				
+		</tr>
+		{% endfor %}
+	</tbody>
+	<tfoot>
+		<tr id="lastRow">
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>							
+		</tr>
+	</tfoot>		
+</table>
+{% endblock %}

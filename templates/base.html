@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Password safe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="/password/static/css/passwords.css" rel="stylesheet">
+    <link href="/password/static/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="/password/static/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script src="/password/static/js/jquery-1.7.1.min.js"></script>
+    <script src="/password/static/js/picnet.table.filter.min.js"></script>
+    <script src="/password/static/js/bootstrap-transition.js"></script>
+    <script src="/password/static/js/bootstrap-alert.js"></script>
+    <script src="/password/static/js/bootstrap-modal.js"></script>
+    <script src="/password/static/js/bootstrap-dropdown.js"></script>
+    <script src="/password/static/js/bootstrap-scrollspy.js"></script>
+    <script src="/password/static/js/bootstrap-tab.js"></script>
+    <script src="/password/static/js/bootstrap-tooltip.js"></script>
+    <script src="/password/static/js/bootstrap-popover.js"></script>
+    <script src="/password/static/js/bootstrap-button.js"></script>
+    <script src="/password/static/js/bootstrap-collapse.js"></script>
+    <script src="/password/static/js/bootstrap-carousel.js"></script>
+    <script src="/password/static/js/bootstrap-typeahead.js"></script>
+
+{% block header %}
+
+{% endblock %}
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="{% url index %}">Password safe</a>
+          <div class="nav-collapse">
+
+	<div class="btn-group pull-right">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="icon-user"></i> {{ user.username }}
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+		<li><a href="https://fum3.futurice.com/fum/">Profile page</a></li>
+              <li class="divider"></li>
+              <li><a href="https://login.futurice.com/logout.php?get_accepted">Sign Out</a></li>
+            </ul>
+          </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+{% block content %}
+
+{% endblock %}
+
+      <hr>
+
+      <footer>
+        <p>&copy; Futurice 2010-2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+
+  </body>
+</html>
