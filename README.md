@@ -26,6 +26,8 @@ python manage.py syncdb
 License
 -------
 
+MIT license
+
 Copyright (C) 2010-2012 Futurice Ltd, Olli Jarva, Sebastien Piquemal, 
 Marja Käpyaho
 
