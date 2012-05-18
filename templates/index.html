@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block header %}
-		<script type="text/javascript">
-			$(document).ready(function() {
-				var baseUrl = "{{ baseUrl }}";
-			});
-		</script>	
+<script type="text/javascript">
+	$(document).ready(function() {
+		var baseUrl = "{{ baseUrl }}";
+	});
+</script>	
 
-	        <script type="text/javascript" src="/password/static/js/passwords.js"></script>		
-		<link rel="stylesheet" type="text/css" href="/password/static/css/passwords.css"/>
+       <script type="text/javascript" src="/password/static/js/passwords.js"></script>		
+<link rel="stylesheet" type="text/css" href="/password/static/css/passwords.css"/>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -88,36 +88,24 @@ $(document).ready(function() {
 			</td>			
 			{% if password in user_passwords %}
 			<td class="edit">
-				<span class="icon-wrench" title="Edit password"/>
+				<span class="linkcursor icon-wrench" title="Edit password"/>
 			</td>	
 			{% else %}
 			<td class="disabledEdit">
-				<span class="icon-wrench disabled" title="Edit password"/>
+				<span class="linkcursor icon-wrench disabled" title="Edit password"/>
 			</td>
 			{% endif %}										
 			{% if password in user_passwords %}
 			<td class="delete">
-				<span class="icon-remove-circle" href="#" title="Delete password"/>
+				<span class="linkcursor icon-remove-circle" href="#" title="Delete password"/>
 			</td>
 			{% else %}
 			<td class="disabledDelete">
-				<span class="icon-remove-circle disabled" href="#" title="Delete password"/>
+				<span class="linkcursor icon-remove-circle disabled" href="#" title="Delete password"/>
 			</td>
 			{% endif %}																				
 		</tr>
 		{% endfor %}
 	</tbody>
-	<tfoot>
-		<tr id="lastRow">
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>							
-		</tr>
-	</tfoot>		
 </table>
 {% endblock %}

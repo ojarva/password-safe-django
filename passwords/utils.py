@@ -6,17 +6,25 @@ def get_ldap_groups(username):
     Returns:
         list. A list of all LdapGroups, which have *username* as a member.  
     """
+    def __get_ldap_groups(username):
+        ldap_groups = []    
+        # Find user ldap groups
+        for ldap_group in LdapGroup.objects.all():
+            if username in ldap_group.members_usernames:
+                ldap_groups.append(ldap_group.name)
+        return ldap_groups
+
     cache_key = "ldap_groups_%s" % username
     cached = cache.get(cache_key)
     if cached is not None:
         return cached
-    ldap_groups = []    
-    # Find user ldap groups
-    for ldap_group in LdapGroup.objects.all():
-        if username in ldap_group.members_usernames:
-            ldap_groups.append(ldap_group)
 
-    cache.set(cache_key, ldap_groups, 120)
+    ldap_groups = __get_ldap_groups(username)
+    if len(ldap_groups) == 0:
+        ldap_groups = __get_ldap_groups(username)
+ 
+    if len(ldap_groups) != 0:
+        cache.set(cache_key, ldap_groups, 5)
 
     return ldap_groups
 
@@ -39,14 +47,9 @@ def check_authorization(pw_pk, username=None):
     if cached is not None:
         return cached
 
-    try:
-        ldap_group = LdapGroup.objects.get(pk=password.ldapGroup) 
-    except:
-        cache.set(cache_key, False, 120)
-        return False
-    if username in ldap_group.members_usernames:
-        cache.set(cache_key, True, 120)
+    if password.ldapGroup in get_ldap_groups(username):
+        cache.set(cache_key, True, 1)
         return True
-    else: 
-        cache.set(cache_key, False, 120)
+    else:
+        cache.set(cache_key, False, 1)
         return False

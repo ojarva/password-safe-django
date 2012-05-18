@@ -42,11 +42,11 @@ $(document).ready(function() {
   	  			} else {
 					$editIdDialog.modal();
 					$(".save", $editIdDialog).click(function() {
-						var targetSystem = $(".targetSystem").children(),
-							username = $(".username").children(),
-							password = $(".password").children(),
-							ldapGroup = $(".ldapGroup").children(),
-							description = $(".description").children();
+						var targetSystem = $("#id_targetSystem"),
+							username = $("#id_username"),
+							password = $("#id_password"),
+							ldapGroup = $("#id_ldapGroup"),
+							description = $("#id_description");
 												
 						var bValid = true;
 		
@@ -148,7 +148,8 @@ $(document).ready(function() {
 	// Create new password dialog	
 
 	$('#newPassword').click(function() {
-		var $newIdDialog = $('<div></div>')
+                $("#modaltemp").remove();
+		var $newIdDialog = $('<div id="modaltemp"></div>')
 			.load(baseUrl + 'newPassword/',  function(response, status, xhr) {
                         if (status == "error") {
                              var msg = "Sorry but there was an error: ";
@@ -157,12 +158,11 @@ $(document).ready(function() {
 			$newIdDialog.modal();
 
 			$(".save", $newIdDialog).click(function() {
-				alert("click");
-				var targetSystem = $(".targetSystem").children().last(),
-					username = $(".username").children().last(),
-					password = $(".password").children().last(),
-					ldapGroup = $(".ldapGroup").children().last(),
-					description = $(".description").children().last();
+				var targetSystem = $("#id_targetSystem"),
+					username = $("#id_username"),
+					password = $("#id_password"),
+					ldapGroup = $("#id_ldapGroup"),
+					description = $("#id_description");
 										
 				var bValid = true;
 					
@@ -237,13 +237,13 @@ $(document).ready(function() {
 				}
 
 
-				console.log(bValid);
 				// If validations check out - submit form			
 				if (bValid) {
                                       $('#editPasswordForm').submit();
 				}
 				return false;
 			});
+
 			return false;
 		} // end of load else
 		}); // end of load callback

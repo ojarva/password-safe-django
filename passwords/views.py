@@ -24,7 +24,7 @@ def authorization_required(view_func):
         elif check_authorization(pw_pk, request.user.username) == None:
             return view_func(request, None, **kwargs) 
         else:
-            raise PermissionDenied
+            raise PermissionDenied(str(get_ldap_groups(request.user.username))+request.user.username)
     return wraps(view_func)(_decorated_view)
 
 def pw_pk_to_int(view_func):
@@ -58,7 +58,7 @@ def newPassword(request):
     password = Password()
 
     ldap_groups = get_ldap_groups(request.user.username)
-    ldap_groups_choices = [(lg.name, lg.name) for lg in ldap_groups]
+    ldap_groups_choices = [(lg, lg) for lg in ldap_groups]
     if request.method == 'POST':
         form = PasswordForm(request.POST, instance=password,
             ldap_groups_choices=ldap_groups_choices)
@@ -78,7 +78,7 @@ def editPassword(request, pw_pk=None):
     password = get_object_or_404(Password, pk=pw_pk)
 
     ldap_groups = get_ldap_groups(request.user.username)
-    ldap_groups_choices = [(lg.name, lg.name) for lg in ldap_groups]
+    ldap_groups_choices = [(lg, lg) for lg in ldap_groups]
     if request.method == 'POST':
         form = PasswordForm(request.POST, instance=password,
             ldap_groups_choices=ldap_groups_choices)
