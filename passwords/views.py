@@ -49,7 +49,7 @@ def index(request):
     else:
         showOnly = False
 
-    baseUrl = '/password/'
+    baseUrl = '/'
     
     return direct_to_template(request, 'index.html', {'passwords': Password.objects.all(), 'user_passwords': user_passwords, 'showOnly': showOnly, 'baseUrl': baseUrl})
 

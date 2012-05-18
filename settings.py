@@ -47,7 +47,7 @@ USE_I18N = True
 USE_L10N = True
 
 
-WWW_ROOT = '/password/'
+WWW_ROOT = '/'
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
@@ -62,7 +62,7 @@ MEDIA_URL = ''
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-STATIC_URL = "/password/static/"
+STATIC_URL = "/static/"
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '^mlj=rj%)!u-jah4vnb09glgy+7bws6(x=*vpv1dwqu2@6qe)-'

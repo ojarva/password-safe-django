@@ -1,4 +1,4 @@
-var baseUrl = "/password/";
+var baseUrl = "/";
 
 $(document).ready(function() {
 
