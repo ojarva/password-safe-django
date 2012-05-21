@@ -34,13 +34,15 @@ $(document).ready(function() {
 		$('.edit', nRow).not('.initialized').addClass('initialized').click(function() {
 			var editIcon = $(this);
 			var id = editIcon.parent().attr('id');
-			var $editIdDialog = $('<div></div>')
+			$("#modaltemp").remove();
+			var $editIdDialog = $('<div id="modaltemp"></div>')
 				.load(baseUrl + 'editPassword/' + id + '/', function(response, status, xhr) {
  				if (status == "error") {
 					var msg = "Sorry but there was an error: ";
 					alert(msg + xhr.status + " " + xhr.statusText);
   	  			} else {
 					$editIdDialog.modal();
+					$("#id_ldapGroup", $editIdDialog).chosen();
 					$(".save", $editIdDialog).click(function() {
 						var targetSystem = $("#id_targetSystem"),
 							username = $("#id_username"),
@@ -156,6 +158,7 @@ $(document).ready(function() {
                              alert(msg + xhr.status + " " + xhr.statusText);
                 } else {
 			$newIdDialog.modal();
+			$("#id_ldapGroup", $newIdDialog).chosen();
 
 			$(".save", $newIdDialog).click(function() {
 				var targetSystem = $("#id_targetSystem"),
