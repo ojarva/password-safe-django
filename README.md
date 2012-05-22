@@ -49,4 +49,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 DEALINGS IN THE SOFTWARE.
 
+Libraries
+---------
+
+* picnet: http://www.picnet.com.au/picnet-table-filter.html , licensed under MIT license
+* ldapdb: http://opensource.bolloretelecom.eu/projects/django-ldapdb/ , 3-clause BSD license
+* bootstrap: http://twitter.github.com/bootstrap/ , Apache license v2.0
+* chosen: https://github.com/harvesthq/chosen/ , MIT license
+
 
