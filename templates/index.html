@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
- $("#passwordTable").tableFilter({filterDelay: 10, additionalFilterTriggers: [$('#quickfind'), $("#showOnly")], 
+ $("#passwordTable").tableFilter({enableCookies: false, filterDelay: 10, additionalFilterTriggers: [$('#quickfind'), $("#showOnly")], 
        matchingRow: function(state, tr, textTokens) {
            if (!state || !state.id) { return true; }
            var child = tr.children('td:eq(0)');
