@@ -4,12 +4,10 @@ from django.db import models
 from ldapdb.models.fields import CharField, IntegerField, ListField
 import ldapdb.models
 
-#Class for representing an LDAP group entry.
 class LdapGroup(ldapdb.models.Model):
-    
+    """ Represents LDAP groups """    
     # LDAP meta-data
     base_dn = "ou=Groups,dc=futurice,dc=com"
-    #object_classes = ['*']
 
     # attributes
     gid = IntegerField(db_column='gidNumber', unique=True)
@@ -29,8 +27,7 @@ class LdapGroup(ldapdb.models.Model):
         return usernames
 
 class Password(models.Model):
-    
-    # attributes
+    """ Represents single password """
     targetSystem = models.CharField(max_length=100)
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
@@ -38,5 +35,4 @@ class Password(models.Model):
     description = models.CharField(max_length=10000, null=True, blank=True)
 
     def __unicode__(self):
-        return self.username
-        
+        return "%s %s" % (self.targetSystem, self.username)

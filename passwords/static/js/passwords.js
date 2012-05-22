@@ -2,6 +2,7 @@ var baseUrl = "/";
 
 $(document).ready(function() {
 
+	// Handler for loading passwords from the server
 	$('.showPassword').click(function(event) {
 		event.preventDefault();
 		if ($(this).text() == 'Show password') {
@@ -20,17 +21,18 @@ $(document).ready(function() {
 		}
 		return false;
 	});
-	
-	$('.hiddenPassword').hide();
 
+	// Hide password fields
+	$('.hiddenPassword').hide();
+	$('.hidden_content').hide();
+
+	// Bind edit and delete buttons to each row in passwords table
 	$(".searchTable > tbody > tr").each(function(count, item) { rowCreatedCallback(item); });
 
-        // Callback for when a table row has ben created
+        // Callback for when a table row has been created
         function rowCreatedCallback(nRow){
 
-
 		// Create edit id dialog
-
 		$('.edit', nRow).not('.initialized').addClass('initialized').click(function() {
 			var editIcon = $(this);
 			var id = editIcon.parent().attr('id');
@@ -128,10 +130,10 @@ $(document).ready(function() {
             return nRow
         }
 
+	// Set headers for edit and delete
 	$("#editHeader").html('Edit');
 	$("#deleteHeader").html('Delete');
 
-	$('.hidden_content').hide();
 	
 	// Toggle showing more of the description
 	$('.toggle').toggle(
@@ -147,8 +149,7 @@ $(document).ready(function() {
 		$(this).toggleClass('icon-minus-sign');
 	});	
 
-	// Create new password dialog	
-
+	// Create new password dialog
 	$('#newPassword').click(function() {
                 $("#modaltemp").remove();
 		var $newIdDialog = $('<div id="modaltemp"></div>')
@@ -158,6 +159,7 @@ $(document).ready(function() {
                              alert(msg + xhr.status + " " + xhr.statusText);
                 } else {
 			$newIdDialog.modal();
+			// Interactive group selection list
 			$("#id_ldapGroup", $newIdDialog).chosen();
 
 			$(".save", $newIdDialog).click(function() {
@@ -238,7 +240,6 @@ $(document).ready(function() {
 					$(".descriptionLabel").css('color', '#4F4A45');
 					$(".descriptionLabel").text('Description');							
 				}
-
 
 				// If validations check out - submit form			
 				if (bValid) {

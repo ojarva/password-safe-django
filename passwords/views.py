@@ -53,7 +53,7 @@ def index(request):
     
     return direct_to_template(request, 'index.html', {'passwords': Password.objects.all(), 'user_passwords': user_passwords, 'showOnly': showOnly, 'baseUrl': baseUrl})
 
-def newPassword(request):
+def new_password(request):
     new = True
     password = Password()
 
@@ -73,7 +73,7 @@ def newPassword(request):
 
 @pw_pk_to_int
 @authorization_required
-def editPassword(request, pw_pk=None):
+def edit_password(request, pw_pk=None):
     new = False
     password = get_object_or_404(Password, pk=pw_pk)
 
@@ -93,7 +93,7 @@ def editPassword(request, pw_pk=None):
 
 @pw_pk_to_int
 @authorization_required
-def deletePassword(request, pw_pk=None):
+def delete_password(request, pw_pk=None):
     try:
         pw = Password.objects.get(pk=pw_pk)
     except Password.DoesNotExist:
@@ -104,13 +104,13 @@ def deletePassword(request, pw_pk=None):
 
 @pw_pk_to_int
 @authorization_required
-def getPassword(request, pw_pk=None):
+def get_password(request, pw_pk=None):
     try:
         pw = Password.objects.get(pk=pw_pk)
     except Password.DoesNotExist:
         raise Http404 
     return HttpResponse(pw.password, mimetype="text/plain")
 
-def saveSession(request, showOnly):
+def save_session(request, showOnly):
     # Set search parameters to session
     request.session['showOnly'] = showOnly
