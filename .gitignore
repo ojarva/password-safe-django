@@ -4,3 +4,4 @@ passwd
 *.pid
 *.sock
 *.crt
+settings_local.py

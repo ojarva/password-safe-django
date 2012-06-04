@@ -9,11 +9,11 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 
-from .models import Password, LdapGroup
-from .forms import PasswordForm
-from utils import *
+from models import Password, LdapGroup
+from forms import PasswordForm
+from utils import check_authorization, get_ldap_groups
 
-def authorization_required(view_func):
+def check_ldap_access(view_func):
     """
     Decorator for views with signature `view(request, pw_pk, **kwargs)`. Denies the access if the connected user has no rights on the password.
     If *pw_pk* is None, then authorization is never denied. If the password doesn't exist, then view is called with `pw_pk=None`.
@@ -27,9 +27,11 @@ def authorization_required(view_func):
             raise PermissionDenied(str(get_ldap_groups(request.user.username))+request.user.username)
     return wraps(view_func)(_decorated_view)
 
-def pw_pk_to_int(view_func):
+def first_parameter_to_int(view_func):
     """
     Decorator for views with signature `view(request, pw_pk, **kwargs)`. Calls the view with *pw_pk* converted to an int. If *pw_pk* is None, the value stays the same.
+
+    Unhandled exception if int(pw_pk) fails - with correct url regex ([0-9]+) that never happens.
     """
     def _decorated_view (request, pw_pk=None, **kwargs):
         if pw_pk == None:
@@ -45,13 +47,13 @@ def index(request):
         Password.objects.all())
     
     if request.session.get('showOnly', True):
-        showOnly = True
+        show_only_accessible = True
     else:
-        showOnly = False
+        show_only_accessible = False
 
     baseUrl = '/'
     
-    return direct_to_template(request, 'index.html', {'passwords': Password.objects.all(), 'user_passwords': user_passwords, 'showOnly': showOnly, 'baseUrl': baseUrl})
+    return direct_to_template(request, 'passwords/index.html', {'passwords': Password.objects.all(), 'user_passwords': user_passwords, 'showOnly': show_only_accessible, 'baseUrl': baseUrl})
 
 def new_password(request):
     new = True
@@ -69,10 +71,10 @@ def new_password(request):
         form = PasswordForm(instance=password,
             ldap_groups_choices=ldap_groups_choices)
 
-    return direct_to_template(request, 'editPassword.html', {'form': form, 'ldapGroups': LdapGroup.objects.all(), 'new': new})
+    return direct_to_template(request, 'passwords/edit_password.html', {'form': form, 'ldapGroups': LdapGroup.objects.all(), 'new': new})
 
-@pw_pk_to_int
-@authorization_required
+@first_parameter_to_int
+@check_ldap_access
 def edit_password(request, pw_pk=None):
     new = False
     password = get_object_or_404(Password, pk=pw_pk)
@@ -89,10 +91,10 @@ def edit_password(request, pw_pk=None):
         form = PasswordForm(instance=password,
             ldap_groups_choices=ldap_groups_choices)
 
-    return direct_to_template(request, 'editPassword.html', {'form': form, 'ldapGroups': LdapGroup.objects.all(), 'new': new})
+    return direct_to_template(request, 'edit_password.html', {'form': form, 'ldapGroups': LdapGroup.objects.all(), 'new': new})
 
-@pw_pk_to_int
-@authorization_required
+@first_parameter_to_int
+@check_ldap_access
 def delete_password(request, pw_pk=None):
     try:
         pw = Password.objects.get(pk=pw_pk)
@@ -102,15 +104,11 @@ def delete_password(request, pw_pk=None):
         pw.delete()
     return HttpResponseRedirect(reverse("index"))
 
-@pw_pk_to_int
-@authorization_required
+@first_parameter_to_int
+@check_ldap_access
 def get_password(request, pw_pk=None):
     try:
         pw = Password.objects.get(pk=pw_pk)
     except Password.DoesNotExist:
         raise Http404 
     return HttpResponse(pw.password, mimetype="text/plain")
-
-def save_session(request, showOnly):
-    # Set search parameters to session
-    request.session['showOnly'] = showOnly

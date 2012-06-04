@@ -117,13 +117,17 @@ INSTALLED_APPS = (
 Settings for django-ldapdb
 """
 
-LDAPDB_BIND_DN = "uid=fum3test,ou=People,dc=Futurice,dc=com"
-LDAPDB_BIND_PASSWORD = "3CRMNufEmf"
-LDAPDB_SERVER_URI = "ldaps://ldap2.futurice.com/"
+LDAPDB_BIND_DN = "uid=ldapuser,ou=People,dc=Futurice,dc=com"
+LDAPDB_BIND_PASSWORD = "your_password"
+LDAPDB_SERVER_URI = "ldaps://ldap.futurice.com/"
 
-#PWSAFE ---- Additional settings
-try :
+try:
     from env_settings import *
 except ImportError as e:
     print "WARNING : settings for the development environment couldn't be imported because:", e
 
+
+try:
+    from settings_local import *
+except ImportError:
+    pass

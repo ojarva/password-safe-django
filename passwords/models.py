@@ -5,7 +5,7 @@ from ldapdb.models.fields import CharField, IntegerField, ListField
 import ldapdb.models
 
 class LdapGroup(ldapdb.models.Model):
-    """ Represents LDAP groups """    
+    """ Represents LDAP group stored in LDAP directory, configured in settings.py """
     # LDAP meta-data
     base_dn = "ou=Groups,dc=futurice,dc=com"
 
@@ -27,7 +27,7 @@ class LdapGroup(ldapdb.models.Model):
         return usernames
 
 class Password(models.Model):
-    """ Represents single password """
+    """ Single password stored in Django database """
     targetSystem = models.CharField(max_length=100)
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=50)

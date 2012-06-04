@@ -23,6 +23,8 @@ python manage.py collectstatic
 python manage.py syncdb
 ```
 
+* Change *base_dn* from *passwords/models.py*
+
 License
 -------
 
