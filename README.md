@@ -6,7 +6,7 @@ Written by Olli Jarva, Sebastién Piquemal, Marja Käpyaho
 Installation
 ------------
 
-* Install Django >= 1.3
+* Install Django >= 1.4
 * fastcgi script is located in *bin* folder.
 
 In the production environment, the media files (css, js) should be served 
